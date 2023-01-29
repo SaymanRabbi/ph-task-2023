@@ -1,9 +1,9 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import React from 'react';
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../features/userSlice';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -22,11 +22,7 @@ const Register = () => {
             password
         }).then((res) => {
             if(res.data.success){
-                dispatch(login({
-                    email: res?.data?.user?.newUser?.email,
-                    name: res?.data?.user?.newUser?.name,
-                    token: res?.data?.user?.token
-                }))
+                Cookies.set("user", JSON.stringify(res.data.user));
                 toast.success("Register Successfully");
                 navigate("/");
             }

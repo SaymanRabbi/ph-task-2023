@@ -1,13 +1,15 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../features/userSlice';
 
 const Header = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const {user} = useSelector(state=>state);
     const handleLogOut = () => {
         dispatch(logout);
+        navigate("/login");
     }
     return (
         <header className="navbar bg-base-100 shadow">
@@ -52,7 +54,7 @@ const Header = () => {
               </svg>
             </label>
 
-            {user.name ? (
+            {user?.name ? (
               <div className="users-info flex items-center gap-3">
                 <div className="flex items-center gap-3">
                   <div className="avatar w-10 h-10 rounded-full font-bold  grid place-items-center border">
