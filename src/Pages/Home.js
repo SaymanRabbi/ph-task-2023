@@ -6,6 +6,7 @@ const Home = () => {
     const {user,token} = useSelector(state=>({...state.user}));
     const [billings, setBillings] = useState([]);
     const [searchedBillings, setSearchedBillings] = useState([]);
+    console.log(searchedBillings);
     const [isUpdateForm, setIsUpdateForm] = useState(false);
     const [oldData, setOldData] = useState({});
 const { isLoading, error, data,refetch } = useQuery("data", () => fetch('http://localhost:5000/api/billing-list', {
@@ -24,6 +25,17 @@ useEffect(() => {
     );
     // setPaidTotal(paidTotal);
   }, [data]);
+   /* SEARCH BILLING USING FULL NAME, EMAIL, PHONE NUMBER */
+   const handleSearch = async (event) => {
+    const searchValue = event.target.value.toLowerCase();
+    const filteredBilling = billings.filter(
+      (item) =>
+        item.name.toLowerCase().includes(searchValue) ||
+        item.email.toLowerCase().includes(searchValue) ||
+        item.phone.toLowerCase().includes(searchValue)
+    );
+    setSearchedBillings(filteredBilling);
+  };
     return (
         <section id="billing" className="p-10 h-screen">
       <div className="container mx-auto font-poppins shadow p-5 rounded">
@@ -43,7 +55,7 @@ useEffect(() => {
                   type="text"
                   placeholder="Search"
                   className="input input-bordered "
-                //   onChange={handleSearch}
+                  onChange={handleSearch}
                 />
               </div>
             </div>
