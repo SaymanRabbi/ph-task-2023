@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import './App.css';
 import RequireAuth from "./auth/RequireAuth";
+import Footer from "./Components/Footer";
 import Header from "./Components/Header";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
@@ -20,7 +21,7 @@ function App() {
       <Route path="/login" element={<Login/>}/>
       <Route path="/register" element={<Register/>} />
     </Routes>
-    {/* <Footer/> */}
+    <Footer/>
   </section>
   );
 }
