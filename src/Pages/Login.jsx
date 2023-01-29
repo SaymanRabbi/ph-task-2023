@@ -1,14 +1,46 @@
+import axios from "axios";
 import React from 'react';
-import { Link } from 'react-router-dom';
-
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from "../features/userSlice";
 const Login = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const handleLoginForm =async (event) => {
+        event.preventDefault();
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+        // console.log(!email)
+        if(!email ) return toast.error("email filed is required");
+        if(!password ) return toast.error("password filed is required");
+        await axios.post("http://localhost:5000/api/login", {
+            email,
+            password
+        }).then((res) => {
+            if(res.data.success){
+                dispatch(login({
+                    email: res?.data?.user?.user?.email,
+                    name: res?.data?.user?.user?.name,
+                     token: res?.data?.user?.token
+                }))
+                toast.success("Login Successfully");
+                navigate("/");
+            }
+        }).catch((err) => {
+            if(err.response.status === 401 || err.response.status === 403){
+                toast.error(err.response.data.message);
+            }
+        }
+        )
+    }
     return (
         <section
       id="login"
       className="grid place-items-center sm:h-[85vh] h-screen font-poppins"
     >
       <form
-        // onSubmit={handleLoginForm}
+        onSubmit={handleLoginForm}
         className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-300 rounded-lg"
       >
         <div className="card-body">
@@ -46,7 +78,7 @@ const Login = () => {
             </label>
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-primary">Login Account</button>
+            <button type="submit" className="btn btn-primary">Login Account</button>
           </div>
           <label className="label-text-alt  ">
             New In Power Pack?{" "}
