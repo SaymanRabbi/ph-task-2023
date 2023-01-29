@@ -1,6 +1,103 @@
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import React from 'react';
+import toast from "react-hot-toast";
+const Modal = ({isUpdateForm, oldData}) => {
+    const handleBilling = async (event) => {
+        event.preventDefault();
+        /* selections */
+        const name = event.target.name.value;
+        const email = event.target.email.value;
+        const phone = event.target.phone.value;
+        const paidAmount = event.target.paid_amount.value;
+          /* Error Handling */
+    if (!name) return toast.error(`Name Field is required.`);
 
-const Modal = () => {
+    if (!email) return toast.error(`Email field is required.`);
+
+    if (/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(email) === false)
+      return toast.error(`Please enter a valid email address.`);
+
+    if (!phone) return toast.error(`Phone field is required.`);
+
+    if (phone.length < 11) return toast.error(`Phone field must be 11 digits.`);
+
+    if (/^(?:(?:\+|00)88|01)?\d{11}$/.test(phone) === false)
+      return toast.error(
+        `Please enter a valid phone number. ex- +8801215454445`
+      );
+
+    if (!paidAmount) return toast.error(`Paid Amount field is required.`);
+     /* calling api to save data  */
+     const billingData = {
+        name: name,
+        email: email,
+        phone: phone,
+        paidamount: parseInt(paidAmount),
+      };
+        await axios.post("http://localhost:5000/api/add-billing", billingData,{
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${Cookies.get("token")}`
+            }
+        }).then((res) => {
+            if(res.data.success){
+                toast.success("Billing Information Added Successfully");
+                // window.location.reload();
+                event.target.reset();
+            }
+        }).catch(err=>{
+            toast.error("Something went wrong");
+        })
+    }
+    const handleUpdateBilling = async (event) => {
+        event.preventDefault();
+        /* selections */
+        const name = event.target.name.value;
+        const email = event.target.email.value;
+        const phone = event.target.phone.value;
+        const paidAmount = event.target.paid_amount.value;
+    
+        /* Error Handling */
+        if (!name) return toast.error(`Name Field is required.`);
+    
+        if (!email) return toast.error(`Email field is required.`);
+    
+        if (/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(email) === false)
+          return toast.error(`Please enter a valid email address.`);
+    
+        if (!phone) return toast.error(`Phone field is required.`);
+    
+        if (phone.length < 11) return toast.error(`Phone field must be 11 digits.`);
+    
+        if (/^(?:(?:\+|00)88|01)?\d{11}$/.test(phone) === false)
+          return toast.error(
+            `Please enter a valid phone number. ex- +8801215454445`
+          );
+    
+        if (!paidAmount) return toast.error(`Paid Amount field is required.`);
+        /* calling api to save data  */
+        const billingData = {
+          name: name,
+          email: email,
+          phone: phone,
+          paidAmount: parseInt(paidAmount),
+        };
+        await axios.patch("http://localhost:5000/api/update-billing", billingData,{},{
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${Cookies.get("token")}`
+            }
+        }).then(res=>{
+            if(res.data.success){
+                toast.success("Billing Information Updated Successfully");
+                // window.location.reload();
+                event.target.reset();
+            }
+        }).catch(err=>{
+            toast.error("Something went wrong");
+        })
+    }
     return (
         <form
         action=""
