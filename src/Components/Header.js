@@ -1,15 +1,18 @@
+import Cookies from 'js-cookie';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { logout } from '../features/userSlice';
 
 const Header = () => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {user} = useSelector(state=>state);
+    const navigate = useNavigate();
+    const {user} = useSelector(state=>({...state.user}));
     const handleLogOut = () => {
-        dispatch(logout);
-        navigate("/login");
+        Cookies.set("user","")
+        dispatch({
+          type: "LOGOUT"
+        });
+        navigate("/login")
     }
     return (
         <header className="navbar bg-base-100 shadow">
@@ -26,7 +29,7 @@ const Header = () => {
               <div className="total-paid bg-primary text-white px-2 py-1 rounded-md">
                 Total Paid{" "}
                 <span className="font-raleway font-bold normal-case text-xl">
-                  {user?.amount || "000"}
+                  {'' || "000"}
                 </span>
               </div>
             )}
