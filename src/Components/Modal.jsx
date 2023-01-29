@@ -42,8 +42,8 @@ const Modal = ({isUpdateForm, oldData,refetch}) => {
         }).then((res) => {
             if(res.data.success){
                 toast.success("Billing Information Added Successfully");
-                event.target.reset();
                 refetch()
+                event.target.reset();
             }
         }).catch(err=>{
             toast.error("Something went wrong");

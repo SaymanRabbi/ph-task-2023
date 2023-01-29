@@ -59,6 +59,7 @@ const Header = () => {
                : <svg
                 className="swap-on fill-current w-7 h-7"
                 xmlns="http://www.w3.org/2000/svg"
+                style={{opacity:1}}
                 viewBox="0 0 24 24"
                 onClick={() =>{
                     Cookies.set("darkTheme",true)

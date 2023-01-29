@@ -14,14 +14,15 @@ const Home = () => {
     const [searchedBillings, setSearchedBillings] = useState([]);
     const [isUpdateForm, setIsUpdateForm] = useState(false);
     const [oldData, setOldData] = useState({});
-    const { isLoading, data,refetch } = useQuery("data", () => fetch('http://localhost:5000/api/billing-list', {
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(10);
+    const { isLoading, error,data,refetch } = useQuery("data", () => fetch(`http://localhost:5000/api/billing-list?page=${page}&limit=${limit}`, {
     method: "GET",
     headers: {
         'authorization': `Barer ${token}`
     }
 }).then(res => res.json()))
 const deleteBilling = async (id) => {
-     
      await axios
           .delete(
             `http://localhost:5000/api/delete-billing/${id}`,
@@ -111,6 +112,8 @@ useEffect(() => {
                   searchedBillings={searchedBillings}
                   editingBillings={editingBillings}
                   deleteBilling={deleteBilling}
+                  total={data?.count}
+                  setPage={setPage}
                 />
               </>
             ) : (

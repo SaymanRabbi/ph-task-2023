@@ -36,10 +36,12 @@ export default function PaginatedItems({
   searchedBillings,
   editingBillings,
   deleteBilling,
+  total,
+  setPage
 }) {
   // We start with an empty list of items.
   const [currentItems, setCurrentItems] = useState(searchedBillings);
-
+  const pages = Math.ceil(parseInt(total) / 10);
   return (
     <>
       <Items
@@ -47,6 +49,19 @@ export default function PaginatedItems({
         editingBillings={editingBillings}
         deleteBilling={deleteBilling}
       />
+
+        <div className="flex justify-center items-center mt-4">
+            <div className="flex gap-2">
+                <button className="font-bold">{"-->"}</button>
+                  {
+                        [...Array(pages).keys()].map(i=>
+                            <button key={i} onClick={()=>setPage(i)}>{i}</button>
+                            )
+                        
+                  }
+                <button className="font-bold">{"<--"}</button>
+            </div>
+        </div>
     </>
   );
 }
