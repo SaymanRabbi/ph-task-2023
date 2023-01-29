@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast';
 import { useQuery } from "react-query";
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
+import PaginatedItems from '../Components/BillingPagination';
 import Modal from '../Components/Modal';
 const Home = () => {
     const {user,token} = useSelector(state=>({...state.user}));
@@ -11,24 +12,15 @@ const Home = () => {
     const [searchedBillings, setSearchedBillings] = useState([]);
     const [isUpdateForm, setIsUpdateForm] = useState(false);
     const [oldData, setOldData] = useState({});
-const { isLoading, error, data,refetch } = useQuery("data", () => fetch('http://localhost:5000/api/billing-list', {
+    const { isLoading, error, data,refetch } = useQuery("data", () => fetch('http://localhost:5000/api/billing-list', {
     method: "GET",
     headers: {
         'authorization': `Barer ${token}`
     }
 }).then(res => res.json()))
 const deleteBilling = async (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios
+     
+     await axios
           .delete(
             `http://localhost:5000/api/delete-billing/${id}`,
             {
@@ -45,8 +37,6 @@ const deleteBilling = async (id) => {
             }
           })
           .catch((err) => toast.error(err.message));
-      }
-    });
   };
 useEffect(() => {
     setBillings(data?.data);
