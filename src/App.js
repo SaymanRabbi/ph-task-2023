@@ -1,4 +1,5 @@
 import { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import './App.css';
 import RequireAuth from "./auth/RequireAuth";
@@ -7,8 +8,9 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 function App() {
+  const {theme} = useSelector(state=>({...state}));
   return (
-    <>
+    <section data-theme={theme ? "lofi" : "night"}>
     <Header/>
     <Toaster />
     <Routes>
@@ -19,7 +21,7 @@ function App() {
       <Route path="/register" element={<Register/>} />
     </Routes>
     {/* <Footer/> */}
-  </>
+  </section>
   );
 }
 

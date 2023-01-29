@@ -7,9 +7,8 @@ import Swal from 'sweetalert2';
 import PaginatedItems from '../Components/BillingPagination';
 import Modal from '../Components/Modal';
 const Home = () => {
-    const {user,total} = useSelector(state=>({...state}));
+    const {user} = useSelector(state=>({...state}));
     const token = user?.token;
-    
     const dispatch = useDispatch();
     const [billings, setBillings] = useState([]);
     const [searchedBillings, setSearchedBillings] = useState([]);
