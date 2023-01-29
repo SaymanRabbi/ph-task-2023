@@ -2,7 +2,7 @@ import './App.css';
 
 function App() {
   return (
-    "hello world"
+    <h2 className=' text-sm text-red-50'>helo</h2>
   );
 }
 
