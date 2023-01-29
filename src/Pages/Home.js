@@ -1,18 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from "react-query";
 import { useSelector } from 'react-redux';
 import Modal from '../Components/Modal';
 const Home = () => {
     const {user,token} = useSelector(state=>({...state.user}));
-//   const [isUpdateForm, setIsUpdateForm] = useState(false);
-//   const [oldData, setOldData] = useState({});
+    const [billings, setBillings] = useState([]);
+    const [searchedBillings, setSearchedBillings] = useState([]);
+    const [isUpdateForm, setIsUpdateForm] = useState(false);
+    const [oldData, setOldData] = useState({});
 const { isLoading, error, data,refetch } = useQuery("data", () => fetch('http://localhost:5000/api/billing-list', {
     method: "GET",
     headers: {
         'authorization': `Barer ${token}`
     }
 }).then(res => res.json()))
-  console.log(data);
+useEffect(() => {
+    setBillings(data?.data);
+    setSearchedBillings(data?.data);
+    /* Paid Total */
+    const paidTotal = data?.data.reduce(
+      (acc, item) => acc + item.paidamount,
+      0
+    );
+    // setPaidTotal(paidTotal);
+  }, [data]);
     return (
         <section id="billing" className="p-10 h-screen">
       <div className="container mx-auto font-poppins shadow p-5 rounded">

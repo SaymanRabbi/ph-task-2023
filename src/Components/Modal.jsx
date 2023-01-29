@@ -29,7 +29,6 @@ const Modal = ({isUpdateForm, oldData,refetch}) => {
       );
 
     if (!paidAmount) return toast.error(`Paid Amount field is required.`);
-     /* calling api to save data  */
      const billingData = {
         name: name,
         email: email,
@@ -43,7 +42,6 @@ const Modal = ({isUpdateForm, oldData,refetch}) => {
         }).then((res) => {
             if(res.data.success){
                 toast.success("Billing Information Added Successfully");
-                // window.location.reload();
                 event.target.reset();
                 refetch()
             }
