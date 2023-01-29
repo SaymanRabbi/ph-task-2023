@@ -1,14 +1,49 @@
+import axios from 'axios';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../features/userSlice';
 
 const Register = () => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const handleRegisterForm = async(event) => {
+        event.preventDefault();
+        const name = event.target.name.value;
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+        if(!name) return toast.error("name filed is required");
+        if(!email) return toast.error("email filed is required");
+        if(!password) return toast.error("password filed is required");
+        await axios.post("http://localhost:5000/api/registration", {
+            name,
+            email,
+            password
+        }).then((res) => {
+            if(res.data.success){
+                dispatch(login({
+                    email: res?.data?.user?.newUser?.email,
+                    name: res?.data?.user?.newUser?.name,
+                    token: res?.data?.user?.token
+                }))
+                toast.success("Register Successfully");
+                navigate("/");
+            }
+        }).catch((err) => {
+            if(err.response.status===400){
+                toast.error("This Email Already Exist");
+            }
+        })
+    }
+
     return (
         <section
         id="register"
         className="grid place-items-center sm:h-[85vh] h-screen font-poppins"
       >
         <form
-        //   onSubmit={handleRegisterForm}
+          onSubmit={handleRegisterForm}
           className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-300 rounded"
         >
           <div className="card-body">
