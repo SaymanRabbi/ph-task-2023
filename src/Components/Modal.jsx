@@ -3,7 +3,7 @@ import React from 'react';
 import toast from "react-hot-toast";
 import { useSelector } from 'react-redux';
 const Modal = ({isUpdateForm, oldData,refetch}) => {
-    const {user,token} = useSelector(state=>({...state.user}));
+    const {token} = useSelector(state=>({...state.user}));
     const handleBilling = async (event) => {
         event.preventDefault();
         /* selections */
@@ -82,6 +82,7 @@ const Modal = ({isUpdateForm, oldData,refetch}) => {
           phone: phone,
           paidAmount: parseInt(paidAmount),
         };
+        
         await axios.patch(`http://localhost:5000/api/update-billing/${oldData?.id}`, billingData,{
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -165,7 +166,7 @@ const Modal = ({isUpdateForm, oldData,refetch}) => {
                   placeholder="Paid Amount"
                   className="input input-bordered "
                   name="paid_amount"
-                  defaultValue={isUpdateForm ? oldData.paid_amount : ""}
+                  defaultValue={isUpdateForm ? oldData.paidamount : ""}
                 />
               </div>
               <div className="my-5">

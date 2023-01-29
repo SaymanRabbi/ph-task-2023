@@ -6,7 +6,9 @@ import { Link, useNavigate } from 'react-router-dom';
 const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {user} = useSelector(state=>({...state.user}));
+    const reduxstate = useSelector(state=>({...state}));
+    const {user,total} = reduxstate;
+    const totalAmount = total?.total;
     const handleLogOut = () => {
         Cookies.set("user","")
         dispatch({
@@ -25,11 +27,11 @@ const Header = () => {
             >
               POWER HACK
             </a>
-            {user?.amount && (
+            {totalAmount && (
               <div className="total-paid bg-primary text-white px-2 py-1 rounded-md">
                 Total Paid{" "}
                 <span className="font-raleway font-bold normal-case text-xl">
-                  {'' || "000"}
+                  {totalAmount || "000"}
                 </span>
               </div>
             )}

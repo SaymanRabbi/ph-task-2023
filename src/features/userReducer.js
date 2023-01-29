@@ -10,3 +10,12 @@ export function userReducer(state = Cookies.get("user")?JSON.parse(Cookies.get("
       return state;
   }
 }
+
+export function PaidTotalReducer (state = 0, action) {
+  switch (action.type) {
+    case "TOTAL":
+      return {...state,total:action.payload};
+    default:
+      return state;
+  }
+}

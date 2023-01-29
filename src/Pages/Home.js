@@ -2,17 +2,20 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useQuery } from "react-query";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import PaginatedItems from '../Components/BillingPagination';
 import Modal from '../Components/Modal';
 const Home = () => {
-    const {user,token} = useSelector(state=>({...state.user}));
+    const {user,total} = useSelector(state=>({...state}));
+    const token = user?.token;
+    
+    const dispatch = useDispatch();
     const [billings, setBillings] = useState([]);
     const [searchedBillings, setSearchedBillings] = useState([]);
     const [isUpdateForm, setIsUpdateForm] = useState(false);
     const [oldData, setOldData] = useState({});
-    const { isLoading, error, data,refetch } = useQuery("data", () => fetch('http://localhost:5000/api/billing-list', {
+    const { isLoading, data,refetch } = useQuery("data", () => fetch('http://localhost:5000/api/billing-list', {
     method: "GET",
     headers: {
         'authorization': `Barer ${token}`
@@ -46,9 +49,8 @@ useEffect(() => {
       (acc, item) => acc + item.paidamount,
       0
     );
-    // setPaidTotal(paidTotal);
+    dispatch({type:"TOTAL",payload:paidTotal})
   }, [data]);
-   /* SEARCH BILLING USING FULL NAME, EMAIL, PHONE NUMBER */
    const handleSearch = async (event) => {
     const searchValue = event.target.value.toLowerCase();
     const filteredBilling = billings.filter(
@@ -108,7 +110,6 @@ useEffect(() => {
                 {" "}
                 <PaginatedItems
                   searchedBillings={searchedBillings}
-                  itemsPerPage={10}
                   editingBillings={editingBillings}
                   deleteBilling={deleteBilling}
                 />
@@ -132,7 +133,7 @@ useEffect(() => {
          
         </div>
       </div>
-      <Modal refetch={refetch}/>
+      <Modal refetch={refetch} isUpdateForm={isUpdateForm} oldData={oldData}/>
     </section>
     );
 };
