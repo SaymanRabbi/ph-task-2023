@@ -1,9 +1,18 @@
 import React from 'react';
+import { useQuery } from "react-query";
+import { useSelector } from 'react-redux';
 import Modal from '../Components/Modal';
-
 const Home = () => {
-//     const [isUpdateForm, setIsUpdateForm] = useState(false);
+    const {user,token} = useSelector(state=>({...state.user}));
+//   const [isUpdateForm, setIsUpdateForm] = useState(false);
 //   const [oldData, setOldData] = useState({});
+const { isLoading, error, data,refetch } = useQuery("data", () => fetch('http://localhost:5000/api/billing-list', {
+    method: "GET",
+    headers: {
+        'authorization': `Barer ${token}`
+    }
+}).then(res => res.json()))
+  console.log(data);
     return (
         <section id="billing" className="p-10 h-screen">
       <div className="container mx-auto font-poppins shadow p-5 rounded">
@@ -53,7 +62,7 @@ const Home = () => {
          
         </div>
       </div>
-      <Modal />
+      <Modal refetch={refetch}/>
     </section>
     );
 };

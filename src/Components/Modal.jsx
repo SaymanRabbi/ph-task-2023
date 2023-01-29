@@ -1,8 +1,9 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import React from 'react';
 import toast from "react-hot-toast";
-const Modal = ({isUpdateForm, oldData}) => {
+import { useSelector } from 'react-redux';
+const Modal = ({isUpdateForm, oldData,refetch}) => {
+    const {user,token} = useSelector(state=>({...state.user}));
     const handleBilling = async (event) => {
         event.preventDefault();
         /* selections */
@@ -37,14 +38,14 @@ const Modal = ({isUpdateForm, oldData}) => {
       };
         await axios.post("http://localhost:5000/api/add-billing", billingData,{
             headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${Cookies.get("token")}`
+                'Authorization': `Bearer ${token}`
             }
         }).then((res) => {
             if(res.data.success){
                 toast.success("Billing Information Added Successfully");
                 // window.location.reload();
                 event.target.reset();
+                refetch()
             }
         }).catch(err=>{
             toast.error("Something went wrong");
@@ -85,14 +86,14 @@ const Modal = ({isUpdateForm, oldData}) => {
         };
         await axios.patch("http://localhost:5000/api/update-billing", billingData,{},{
             headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${Cookies.get("token")}`
+                'Authorization': `Bearer ${token}`
             }
         }).then(res=>{
             if(res.data.success){
                 toast.success("Billing Information Updated Successfully");
                 // window.location.reload();
                 event.target.reset();
+                refetch()
             }
         }).catch(err=>{
             toast.error("Something went wrong");
