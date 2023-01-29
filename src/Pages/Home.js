@@ -6,7 +6,6 @@ const Home = () => {
     const {user,token} = useSelector(state=>({...state.user}));
     const [billings, setBillings] = useState([]);
     const [searchedBillings, setSearchedBillings] = useState([]);
-    console.log(searchedBillings);
     const [isUpdateForm, setIsUpdateForm] = useState(false);
     const [oldData, setOldData] = useState({});
 const { isLoading, error, data,refetch } = useQuery("data", () => fetch('http://localhost:5000/api/billing-list', {
@@ -15,6 +14,37 @@ const { isLoading, error, data,refetch } = useQuery("data", () => fetch('http://
         'authorization': `Barer ${token}`
     }
 }).then(res => res.json()))
+const deleteBilling = async (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(
+            `http://localhost:5000/api/delete-billing/${id}`,
+            {
+              headers: {
+                authorization: `Bearer ${toekn}`,
+              },
+            }
+          )
+          .then((res) => {
+            const result = res.data;
+            if (result.success) {
+              Swal.fire("Deleted!", result.message, "success");
+              refetch();
+            }
+          })
+          .catch((err) => toast.error(err.message));
+      }
+    });
+  };
 useEffect(() => {
     setBillings(data?.data);
     setSearchedBillings(data?.data);
@@ -35,6 +65,13 @@ useEffect(() => {
         item.phone.toLowerCase().includes(searchValue)
     );
     setSearchedBillings(filteredBilling);
+  };
+  const editingBillings = async (id, name, email, phone, paidamount) => {
+    const prevData = { id, name, email, phone, paidamount };
+    if (id) {
+      setIsUpdateForm(true);
+      setOldData(prevData);
+    }
   };
     return (
         <section id="billing" className="p-10 h-screen">
@@ -61,7 +98,7 @@ useEffect(() => {
             </div>
             <div className="flex-none gap-2 justify-center items-center w-full sm:justify-start sm:items-start sm:w-auto">
               <label
-                // onClick={() => setIsUpdateForm(false)}
+                onClick={() => setIsUpdateForm(false)}
                 htmlFor="my-modal-3"
                 className="btn btn-primary rounded-md"
               >
@@ -72,7 +109,23 @@ useEffect(() => {
         </div>
         {/* Billing Header end */}
         <div className="overflow-x-auto my-6 overflow-y-hidden">
-           
+          {searchedBillings?.length > 0 ? (
+            !isLoading ? (
+              <>
+                {" "}
+                <PaginatedItems
+                  searchedBillings={searchedBillings}
+                  itemsPerPage={10}
+                  editingBillings={editingBillings}
+                  deleteBilling={deleteBilling}
+                />
+              </>
+            ) : (
+              <div className="text-center py-5">
+                <h3 className="text-xl font-bold">Loading...</h3>
+              </div>
+            )
+          ) : (
             <div className="text-center py-10">
               <h3 className="text-2xl">No Billings Found yet.</h3>
               <label
@@ -82,6 +135,7 @@ useEffect(() => {
                 Add New Billing +
               </label>
             </div>
+          )}
          
         </div>
       </div>
