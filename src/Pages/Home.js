@@ -1,6 +1,9 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { useQuery } from "react-query";
 import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 import Modal from '../Components/Modal';
 const Home = () => {
     const {user,token} = useSelector(state=>({...state.user}));
@@ -30,7 +33,7 @@ const deleteBilling = async (id) => {
             `http://localhost:5000/api/delete-billing/${id}`,
             {
               headers: {
-                authorization: `Bearer ${toekn}`,
+                authorization: `Bearer ${token}`,
               },
             }
           )

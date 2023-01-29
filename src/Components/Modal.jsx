@@ -82,7 +82,7 @@ const Modal = ({isUpdateForm, oldData,refetch}) => {
           phone: phone,
           paidAmount: parseInt(paidAmount),
         };
-        await axios.patch(`http://localhost:5000/api/update-billing/${id}`, billingData,{
+        await axios.patch(`http://localhost:5000/api/update-billing/${oldData?.id}`, billingData,{
             headers: {
                 'Authorization': `Bearer ${token}`
             }
