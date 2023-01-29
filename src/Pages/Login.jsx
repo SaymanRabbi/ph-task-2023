@@ -21,6 +21,7 @@ const Login = () => {
             if(res.data.success){
                 dispatch({ type: "LOGIN", payload: res.data.user });
                 Cookies.set("user", JSON.stringify(res.data.user));
+                toast.success("Login Successfully");
                 navigate("/");
             }
         }).catch((err) => {
