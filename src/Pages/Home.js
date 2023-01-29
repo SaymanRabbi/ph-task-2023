@@ -2,6 +2,8 @@ import React from 'react';
 import Modal from '../Components/Modal';
 
 const Home = () => {
+//     const [isUpdateForm, setIsUpdateForm] = useState(false);
+//   const [oldData, setOldData] = useState({});
     return (
         <section id="billing" className="p-10 h-screen">
       <div className="container mx-auto font-poppins shadow p-5 rounded">
@@ -37,24 +39,8 @@ const Home = () => {
           </div>
         </div>
         {/* Billing Header end */}
-        {/* <div className="overflow-x-auto my-6 overflow-y-hidden">
-          {searchedBillings?.length > 0 ? (
-            !isLoading ? (
-              <>
-                {" "}
-                <PaginatedItems
-                  searchedBillings={searchedBillings}
-                  itemsPerPage={10}
-                  editingBillings={editingBillings}
-                  deleteBilling={deleteBilling}
-                />
-              </>
-            ) : (
-              <div className="text-center py-5">
-                <h3 className="text-xl font-bold">Loading...</h3>
-              </div>
-            )
-          ) : (
+        <div className="overflow-x-auto my-6 overflow-y-hidden">
+           
             <div className="text-center py-10">
               <h3 className="text-2xl">No Billings Found yet.</h3>
               <label
@@ -64,8 +50,8 @@ const Home = () => {
                 Add New Billing +
               </label>
             </div>
-          )}
-        </div> */}
+         
+        </div>
       </div>
       <Modal />
     </section>
