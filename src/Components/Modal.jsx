@@ -35,7 +35,7 @@ const Modal = ({isUpdateForm, oldData,refetch}) => {
         phone: phone,
         paidamount: parseInt(paidAmount),
       };
-        await axios.post("http://localhost:5000/api/add-billing", billingData,{
+        await axios.post("https://phtask2023server-production.up.railway.app/api/add-billing", billingData,{
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -82,7 +82,7 @@ const Modal = ({isUpdateForm, oldData,refetch}) => {
           paidamount
         };
         
-        await axios.patch(`http://localhost:5000/api/update-billing/${oldData?.id}`, billingData,{
+        await axios.patch(`https://phtask2023server-production.up.railway.app/api/update-billing/${oldData?.id}`, billingData,{
             headers: {
                 'Authorization': `Bearer ${token}`
             }

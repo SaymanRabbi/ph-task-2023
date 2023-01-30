@@ -13,7 +13,7 @@ const Login = () => {
         const password = event.target.password.value;
         if(!email ) return toast.error("email filed is required");
         if(!password ) return toast.error("password filed is required");
-        await axios.post("http://localhost:5000/api/login", {
+        await axios.post("https://phtask2023server-production.up.railway.app/api/login", {
             email,
             password
         }).then((res) => {

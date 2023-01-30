@@ -16,7 +16,7 @@ const Register = () => {
         if(!name) return toast.error("name filed is required");
         if(!email) return toast.error("email filed is required");
         if(!password) return toast.error("password filed is required");
-        await axios.post("http://localhost:5000/api/registration", {
+        await axios.post("https://phtask2023server-production.up.railway.app/api/registration", {
             name,
             email,
             password

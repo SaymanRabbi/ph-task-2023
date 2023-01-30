@@ -16,7 +16,7 @@ const Home = () => {
     const [oldData, setOldData] = useState({});
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
-    const { isLoading,data,refetch } = useQuery("data", () => fetch(`http://localhost:5000/api/billing-list?page=${page}&limit=${limit}`, {
+    const { isLoading,data,refetch } = useQuery("data", () => fetch(`https://phtask2023server-production.up.railway.app/api/billing-list?page=${page}&limit=${limit}`, {
     method: "GET",
     headers: {
         'authorization': `Barer ${token}`
@@ -25,7 +25,7 @@ const Home = () => {
 const deleteBilling = async (id) => {
      await axios
           .delete(
-            `http://localhost:5000/api/delete-billing/${id}`,
+            `https://phtask2023server-production.up.railway.app/api/delete-billing/${id}`,
             {
               headers: {
                 authorization: `Bearer ${token}`,
