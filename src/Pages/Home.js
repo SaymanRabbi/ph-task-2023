@@ -12,7 +12,6 @@ const Home = () => {
     const dispatch = useDispatch();
     const [billings, setBillings] = useState([]);
     const [searchedBillings, setSearchedBillings] = useState([]);
-    console.log(searchedBillings);
     const [isUpdateForm, setIsUpdateForm] = useState(false);
     const [oldData, setOldData] = useState({});
     const [page, setPage] = useState(1);

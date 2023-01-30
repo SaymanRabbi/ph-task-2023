@@ -40,9 +40,9 @@ const Modal = ({isUpdateForm, oldData,refetch}) => {
                 'Authorization': `Bearer ${token}`
             }
         }).then((res) => {
+          refetch()
             if(res.data.success){
                 toast.success("Billing Information Added Successfully");
-                refetch()
                 event.target.reset();
             }
         }).catch(err=>{
@@ -55,8 +55,7 @@ const Modal = ({isUpdateForm, oldData,refetch}) => {
         const name = event.target.name.value;
         const email = event.target.email.value;
         const phone = event.target.phone.value;
-        const paidAmount = event.target.paid_amount.value;
-    
+        const paidamount = event.target.paid_amount.value;
         /* Error Handling */
         if (!name) return toast.error(`Name Field is required.`);
     
@@ -74,13 +73,13 @@ const Modal = ({isUpdateForm, oldData,refetch}) => {
             `Please enter a valid phone number. ex- +8801215454445`
           );
     
-        if (!paidAmount) return toast.error(`Paid Amount field is required.`);
+        if (!paidamount) return toast.error(`Paid Amount field is required.`);
         /* calling api to save data  */
         const billingData = {
-          name: name,
-          email: email,
-          phone: phone,
-          paidAmount: parseInt(paidAmount),
+          name,
+          email,
+          phone,
+          paidamount
         };
         
         await axios.patch(`http://localhost:5000/api/update-billing/${oldData?.id}`, billingData,{
@@ -88,11 +87,11 @@ const Modal = ({isUpdateForm, oldData,refetch}) => {
                 'Authorization': `Bearer ${token}`
             }
         }).then(res=>{
-            if(res.data.success){
-                toast.success("Billing Information Updated Successfully");
-                // window.location.reload();
-                event.target.reset();
-                refetch()
+          if(res.data.success){
+            toast.success("Billing Information Updated Successfully");
+            // window.location.reload();
+            event.target.reset();
+            refetch()
             }
         }).catch(err=>{
             toast.error("Something went wrong");
