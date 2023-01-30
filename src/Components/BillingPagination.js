@@ -19,8 +19,8 @@ export default function PaginatedItems({
             <div className="flex gap-2">
                 <button className="font-bold">{"-->"}</button>
                   {
-                        [...Array(pages).keys()].map(i=>
-                            <button key={i} onClick={()=>setPage(i)}>{i}</button>
+                        [...Array(pages).keys()].map((num,i)=>
+                            <button key={i} onClick={()=>setPage(num+1)}>{num+1}</button>
                             )
                         
                   }

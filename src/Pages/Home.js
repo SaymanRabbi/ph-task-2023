@@ -50,7 +50,8 @@ useEffect(() => {
       0
     );
     dispatch({type:"TOTAL",payload:paidTotal})
-  }, [data]);
+    refetch();
+  }, [data,page]);
    const handleSearch = async (event) => {
     const searchValue = event.target.value.toLowerCase();
     const filteredBilling = billings.filter(
@@ -69,7 +70,7 @@ useEffect(() => {
     }
   };
     return (
-        <section id="billing" className="p-10 h-screen">
+        <section id="billing" className="p-10">
       <div className="container mx-auto font-poppins shadow p-5 rounded">
         <div className="title text-center mb-5">
           <h3 className="text-3xl font-poppins font-semibold">Billing Lists</h3>

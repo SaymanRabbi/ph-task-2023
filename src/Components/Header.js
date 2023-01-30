@@ -1,11 +1,11 @@
 import Cookies from 'js-cookie';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const reduxstate = useSelector(state=>({...state}));
     const {total} = reduxstate;
     const user = reduxstate?.user?.user;
@@ -27,9 +27,9 @@ const Header = () => {
               href="/"
               className="btn btn-ghost font-raleway font-bold normal-case text-xl"
             >
-              POWER HACK
+              PH HERO
             </a>
-            {totalAmount && (
+            {location.pathname !=="/login"&&totalAmount && (
               <div className="total-paid bg-primary text-white px-2 py-1 rounded-md">
                 Total Paid{" "}
                 <span className="font-raleway font-bold normal-case text-xl">

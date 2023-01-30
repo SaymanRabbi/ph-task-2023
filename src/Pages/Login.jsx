@@ -77,7 +77,7 @@ const Login = () => {
             <button type="submit" className="btn btn-primary">Login Account</button>
           </div>
           <label className="label-text-alt  ">
-            New In Power Pack?{" "}
+            New In PH HERO?{" "}
             <Link
               to="/register"
               className="label-text-alt link link-hover text-primary"
