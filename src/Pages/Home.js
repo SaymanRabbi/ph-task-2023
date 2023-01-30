@@ -12,11 +12,12 @@ const Home = () => {
     const dispatch = useDispatch();
     const [billings, setBillings] = useState([]);
     const [searchedBillings, setSearchedBillings] = useState([]);
+    console.log(searchedBillings);
     const [isUpdateForm, setIsUpdateForm] = useState(false);
     const [oldData, setOldData] = useState({});
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
-    const { isLoading, error,data,refetch } = useQuery("data", () => fetch(`http://localhost:5000/api/billing-list?page=${page}&limit=${limit}`, {
+    const { isLoading,data,refetch } = useQuery("data", () => fetch(`http://localhost:5000/api/billing-list?page=${page}&limit=${limit}`, {
     method: "GET",
     headers: {
         'authorization': `Barer ${token}`
