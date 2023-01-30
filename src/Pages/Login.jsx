@@ -11,7 +11,6 @@ const Login = () => {
         event.preventDefault();
         const email = event.target.email.value;
         const password = event.target.password.value;
-        // console.log(!email)
         if(!email ) return toast.error("email filed is required");
         if(!password ) return toast.error("password filed is required");
         await axios.post("http://localhost:5000/api/login", {
